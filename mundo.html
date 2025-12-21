@@ -1,0 +1,29 @@
+<DOCTYPE html>
+    <html lang="pt-BR">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+        <script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
+        <title>testando pressets de ambiente </title>
+    </head>
+
+    <body>
+        <h1>Welcome to world</h1>
+            <a-scene>
+                <a-entity environment="preset: moon"></a-entity>
+
+               <!-- 
+                    PRESETS PARA TESTAR NO AMBIENTE TESTADOS
+
+                    <a-entity environment="preset: forest"></a-entity>
+                    <a-entity environment="preset: volcano"></a-entity>
+                    <a-entity environment="preset: moon"></a-entity>
+                    <a-entity environment="preset: rocks"></a-entity>
+                    -->
+                <a-camera position="0 1.6 0" look-controls="mouseSensitivity: 2.5" wasd-controls="acceleration: 100"></a-camera>
+            </a-scene>
+    </body>
+
+    </html>
