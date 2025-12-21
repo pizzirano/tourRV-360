@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Factory Tour GLB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+
+  <!-- Componente de animação -->
+  <script src="https://unpkg.com/aframe-animation-component@5.1.2/dist/aframe-animation-component.min.js"></script>
+
+  <script>
+    // Função para mover a câmera entre hotspots
+    function goTo(position, rotation) {
+      const camera = document.querySelector('#camera');
+
+      camera.setAttribute('animation__pos', {
+        property: 'position',
+        to: position,
+        dur: 1000,
+        easing: 'easeInOutQuad'
+      });
+
+      camera.setAttribute('animation__rot', {
+        property: 'rotation',
+        to: rotation,
+        dur: 1000,
+        easing: 'easeInOutQuad'
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <a-scene background="color: #ECECEC">
+
+    <!-- Assets -->
+    <a-assets>
+      <a-asset-item id="factoryModel" src="assets/factory.glb"></a-asset-item>
+    </a-assets>
+
+    <!-- Modelo da fábrica -->
+    <a-entity 
+      gltf-model="#factoryModel"
+      scale="1 1 1"
+      position="0 0 0">
+    </a-entity>
+
+    <!-- Câmera (exploração 2D) -->
+    <a-camera 
+      id="camera"
+      position="0 1.6 5"
+      look-controls="mouseEnabled: true; touchEnabled: true"
+      wasd-controls-enabled="false">
+      <a-cursor></a-cursor>
+    </a-camera>
+
+    <!-- HOTSPOTS -->
+    <a-sphere 
+      position="2 1 -3"
+      radius="0.2"
+      color="#FF0000"
+      class="clickable"
+      onclick="goTo('2 1.6 -2', '0 45 0')">
+    </a-sphere>
+
+    <a-sphere 
+      position="-3 1 -5"
+      radius="0.2"
+      color="#00FF00"
+      class="clickable"
+      onclick="goTo('-3 1.6 -4', '0 -45 0')">
+    </a-sphere>
+
+  </a-scene>
+</body>
+</html>
