@@ -14,14 +14,14 @@
 
     <!-- ASSETS -->
     <a-assets>
-      <a-asset-item id="factoryModel" src="factory.glb"></a-asset-item>
+      <a-asset-item id="factoryModel" src="factory.glb" crossorigin="anonymous"></a-asset-item>
     </a-assets>
 
     <!-- LUZ -->
     <a-light type="ambient" intensity="1.2"></a-light>
     <a-light type="directional" position="10 20 10" intensity="1.2"></a-light>
 
-    <!-- CHÃO -->
+    <!-- CHÃO 
     <a-plane
       rotation="-90 0 0"
       width="200"
@@ -29,6 +29,8 @@
       color="#999"
       position="0 0 0">
     </a-plane>
+
+  -->
 
     <!-- FÁBRICA -->
     <a-entity
@@ -47,5 +49,16 @@
     </a-camera>
 
   </a-scene>
-</body>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const entity = document.querySelector('[gltf-model="#factoryModel"]');
+        if (entity) {
+          entity.addEventListener('model-error', ev => console.error('GLTF error:', ev.detail));
+          entity.addEventListener('model-loaded', () => console.log('Model loaded'));
+        } else {
+          console.warn('Entity with gltf-model="#factoryModel" not found');
+        }
+      });
+    </script>
 </html>

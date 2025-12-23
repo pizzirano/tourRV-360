@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Factory Walk Tour</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+</head>
+
+<body style="margin:0; overflow:hidden;">
+  <a-scene>
+
+    <!-- ASSETS -->
+    <a-assets>
+      <a-asset-item id="springfieldModel" src="springfield.glb" crossorigin="anonymous"></a-asset-item>
+    </a-assets>
+
+    <a-light type="ambient" intensity="0.8"></a-light>
+    <a-light type="directional" position="10 30 10" intensity="1"></a-light>
+     <a-sky color="#87CEEB"></a-sky>
+
+    <!-- SPRINGFIELD -->
+    <a-entity
+      gltf-model="#springfieldModel"
+      scale="5 5 5"
+      position="0 0 0">
+    </a-entity>
+
+    <!-- CÂMERA COM CAMINHADA -->
+    <a-camera
+      id="camera"
+      position="0 1.6 10"
+      look-controls
+      wasd-controls="acceleration: 20">
+      <a-cursor></a-cursor>
+    </a-camera>
+
+  </a-scene>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const entity = document.querySelector('[gltf-model="#springfieldModel"]');
+        if (entity) {
+          entity.addEventListener('model-error', ev => console.error('GLTF error:', ev.detail));
+          entity.addEventListener('model-loaded', () => console.log('Model loaded'));
+        } else {
+          console.warn('Entity with gltf-model="#springfieldModel" not found');
+        }
+      });
+    </script>
+</html>
