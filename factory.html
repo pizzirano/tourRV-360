@@ -21,7 +21,8 @@
     <a-light type="ambient" intensity="1.2"></a-light>
     <a-light type="directional" position="10 20 10" intensity="1.2"></a-light>
 
-    <!-- CHÃO 
+    <!-- CHÃO -- QUANDO O GLB JA TIVER O CHÃO, NÃO PRECISA DESSA LINHA -->
+    <!--CODIGO ABAIXO E UM PRESET PARA CHAO, SE O GLB NÃO TIVER CHAO, DESCOMENTE ESSA LINHA -->
     <a-plane
       rotation="-90 0 0"
       width="200"
@@ -40,6 +41,7 @@
     </a-entity>
 
     <!-- CÂMERA COM CAMINHADA -->
+     
     <a-camera
       id="camera"
       position="0 1.6 10"

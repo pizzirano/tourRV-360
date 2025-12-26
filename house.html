@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Christmas House Tour</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <style>
+    body { margin: 0; }
+  </style>
+</head>
+
+<body>
+<a-scene>
+
+  <!-- ASSETS * Ainda falta ajustar as imagens para equiretangular-->
+  <a-assets>
+    <img id="p1" src="assets/front-1.jpeg">
+    <img id="p2" src="assets/front-2.jpeg">
+    <img id="p3" src="assets/left.jpeg">
+    <img id="p4" src="assets/back-1.jpeg">
+    <img id="p5" src="assets/back-2.jpeg">
+    <img id="p6" src="assets/right.jpeg">
+  </a-assets>
+
+  <!-- SKY -->
+  <a-sky id="sky" src="#p1" rotation="0 -90 0"></a-sky>
+
+  <!-- CÂMERA -->
+  <a-camera
+    id="camera"
+    position="0 1.6 0"
+    look-controls
+    wasd-controls="enabled: false">
+  </a-camera>
+
+  <!-- HOTSPOT ÚNICO (reutilizado) -->
+  <a-circle
+    id="hotspot"
+    position="0 1.5 -3"
+    rotation="0 180 0"
+    radius="0.22"
+    material="shader: flat; color: #00BFFF"
+    onclick="proximoPanorama()">
+  </a-circle>
+
+</a-scene>
+
+<script>
+  const ordem = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'];
+  let indiceAtual = 0;
+
+  function proximoPanorama() {
+    indiceAtual = (indiceAtual + 1) % ordem.length;
+
+    const sky = document.querySelector('#sky');
+    const camera = document.querySelector('#camera');
+
+    sky.setAttribute('src', '#' + ordem[indiceAtual]);
+
+    // Ajuste de rotação para orientar melhor o olhar
+    const rotacoes = [ -90, -90, 180, 90, 90, 0 ];
+    camera.setAttribute('rotation', `0 ${rotacoes[indiceAtual]} 0`);
+  }
+</script>
+
+</body>
+</html>
