@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <title>Christmas House Tour</title>
+  <title>Christmas House Tour - ArchViz Test</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <style>
     body { margin: 0; }
@@ -12,7 +12,7 @@
 <body>
 <a-scene>
 
-  <!-- ASSETS * Ainda falta ajustar as imagens para equiretangular-->
+  <!-- ASSETS -->
   <a-assets>
     <img id="p1" src="assets/front-1.jpeg">
     <img id="p2" src="assets/front-2.jpeg">
@@ -22,45 +22,73 @@
     <img id="p6" src="assets/right.jpeg">
   </a-assets>
 
-  <!-- SKY -->
-  <a-sky id="sky" src="#p1" rotation="0 -90 0"></a-sky>
+  <!-- SKY (ambiente atual) -->
+  <a-sky
+    id="sky"
+    src="#p1"
+    rotation="0 -90 0"
+    material="opacity: 1"
+    animation__fadeout="property: material.opacity; to: 0; dur: 600; startEvents: fadeOut"
+    animation__fadein="property: material.opacity; to: 1; dur: 600; startEvents: fadeIn">
+  </a-sky>
 
   <!-- CÂMERA -->
-  <a-camera
-    id="camera"
-    position="0 1.6 0"
-    look-controls
-    wasd-controls="enabled: false">
-  </a-camera>
+  <a-camera id="camera" position="0 1.6 0" look-controls wasd-controls="enabled: false"></a-camera>
 
-  <!-- HOTSPOT ÚNICO (reutilizado) -->
+  <!-- HOTSPOT VISUAL (opcional) -->
   <a-circle
     id="hotspot"
     position="0 1.5 -3"
-    rotation="0 180 0"
     radius="0.22"
-    material="shader: flat; color: #00BFFF"
-    onclick="proximoPanorama()">
+    rotation="0 180 0"
+    material="shader: flat; color: #00BFFF">
   </a-circle>
 
 </a-scene>
 
 <script>
-  const ordem = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'];
+  // Lista de panoramas (ambientes)
+  const ambientes = [
+    { id: 'p1', rotacao: 0 },
+    { id: 'p2', rotacao: 90 },
+    { id: 'p3', rotacao: 180 },
+    { id: 'p4', rotacao: -90 },
+    { id: 'p5', rotacao: 0 },
+    { id: 'p6', rotacao: 0 }
+  ];
+
   let indiceAtual = 0;
 
-  function proximoPanorama() {
-    indiceAtual = (indiceAtual + 1) % ordem.length;
+  const sky = document.querySelector('#sky');
+  const camera = document.querySelector('#camera');
 
-    const sky = document.querySelector('#sky');
-    const camera = document.querySelector('#camera');
+  // Função para mudar de ambiente
+  function mudarAmbiente(novoIndice) {
+    // Fade out
+    sky.emit('fadeOut');
 
-    sky.setAttribute('src', '#' + ordem[indiceAtual]);
-
-    // Ajuste de rotação para orientar melhor o olhar
-    const rotacoes = [ -90, -90, 180, 90, 90, 0 ];
-    camera.setAttribute('rotation', `0 ${rotacoes[indiceAtual]} 0`);
+    setTimeout(() => {
+      indiceAtual = novoIndice;
+      sky.setAttribute('src', '#' + ambientes[indiceAtual].id);
+      camera.setAttribute('rotation', `0 ${ambientes[indiceAtual].rotacao} 0`);
+      // Fade in
+      sky.emit('fadeIn');
+    }, 600);
   }
+
+  // Eventos de teclado
+  document.addEventListener('keydown', (event) => {
+    if(event.key === 'n' || event.key === 'N') {
+      // Próximo ambiente
+      const proximo = (indiceAtual + 1) % ambientes.length;
+      mudarAmbiente(proximo);
+    }
+    if(event.key === 'p' || event.key === 'P') {
+      // Ambiente anterior
+      const anterior = (indiceAtual - 1 + ambientes.length) % ambientes.length;
+      mudarAmbiente(anterior);
+    }
+  });
 </script>
 
 </body>
